@@ -1,8 +1,9 @@
 {
   "encoding":"UTF-8",
   "headers": {
-    "/*": { "X-Author": "Сорокина, Ирина Ивановна" ,
-           "Access-Control-Allow-Origin": "*"
+    "/*": { 
+      "X-Author": "Сорокина, Ирина Ивановна" ,
+      "Access-Control-Allow-Origin": "*"
     }
   }
 }
