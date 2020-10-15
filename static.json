@@ -1,6 +1,7 @@
 {
   "headers": {
-    "/*": { "X-Author": "Сорокина, Ирина Ивановна"
+    "/*": { "X-Author": "Сорокина, Ирина Ивановна" ,
+           "Access-Control-Allow-Origin": "*"
     }
   }
 }
