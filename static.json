@@ -5,11 +5,4 @@
         "X-Author": "190752",
          "Access-Control-Allow-Origin": "*"
             }
-      
-      "/login/": {
-        "X-Author": "1907521",
-         "Access-Control-Allow-Origin": "*"
-            }
-              }
-
-}
+     }
