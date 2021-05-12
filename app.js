@@ -4,7 +4,6 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
     const app = express();
     const urlencodedParser = bodyParser.urlencoded({ extended: false });
     const json_parser = bodyParser.json();
-    const url = 'mongodb+srv://danilabukin:danilabukin>@cluster0.wcetp.mongodb.net/week7demo?retryWrites=true&w=majority'
 
     app
     .use((r, res, next) => r.res.set({
@@ -23,22 +22,7 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
     .get('/login/', (req, res) => res.send('sorokina_irina'))
     .get('/code/', (req, res) => fs.createReadStream(import.meta.url.substring(7)).pipe(res))
     .get('/sha1/:input/', (req, res) => res.send(crypto.createHash('sha1').update(req.params.input).digest('hex')))
-    .post('/insert/', urlencodedParser, async (req, res) => {
-        const log = req.body.login;
-        const pass = req.body.password;
-        const url = req.body.URL;
-
-        await m.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
-
-        const newUser = new User({login: log, password: pass});
-        try {
-            await newUser.save();
-            res.status(201);
-        } catch (e) {
-            res.status(400);
-        }
-        res.end();
-    })
+    
     .get('/test/', urlencodedParser, async (req, res) => {
 
         const browser = await puppeteer.launch({args: ['--no-sandbox']});
@@ -51,25 +35,6 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
 
         res.send(url);
         
-    })
-    .get('/wordpress/*', (req, res) => {
-        console.log('http://f0541150.xsph.ru/wordpress/'+req.params[0]);
-        res.header('Content-Type', 'application/json');
-        void http.get('http://f0541150.xsph.ru/wordpress/'+req.params[0], (r, buffer='') => {
-            r
-            .on('data', data => buffer += data)
-            .on('end', () => res.send(buffer));
-        });
-    })
-    .post('/render/', json_parser, urlencodedParser, (req, res) => {
-      let addr = req.query.addr;
-      console.log(addr, req.body.random2, req.body.random3);
-      void http.get(addr, (r, buffer='') => {
-            r
-            .on('data', data => buffer += data)
-            .on('end', () => writeFileSync('views/data.pug', buffer));
-        });
-        res.render('data.pug', {'random2': req.body.random2, 'random3': req.body.random3});
     })
     
     .all('/*', r => r.res.send('sorokina_irina'));
