@@ -1,18 +1,31 @@
-import express from "express"
-import bodyParser from "body-parser"
-import { createReadStream, writeFileSync } from 'fs';
-import crypto from "crypto"
-import http from "http"
-import appSrc from "./app.js"
-import m from 'mongoose'
-import UserModel from './User.js';
+import express from 'express';
 import puppeteer from 'puppeteer';
 
-const User = UserModel(m);
-const app = appSrc(express, bodyParser, createReadStream, writeFileSync, crypto, http, m, User, puppeteer);
+const app = express();
 
-try {
-    app.listen(process.env.PORT || 4321);
-} catch(e) {
-    console.log(e.codeName);
+const cors = function(req, res, next){
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,OPTIONS,DELETE');
+    res.header('Access-Control-Allow-Headers', '*');
+    next();
 }
+
+app
+.use(cors)
+.get('/login/', (req, res) => {
+    res.send('surkovaes');
+})
+.get('/test/', async (req, res) => {
+    const browser = await puppeteer.launch({args: ['--no-sandbox']});
+    const page = await browser.newPage();
+    await page.goto(req.query.URL);
+    await page.click('#bt');
+    const input = await page.$('#inp');
+    let value = await page.evaluate(inp => inp.value, input);
+    res.send(value);
+})
+.use((req, res) => {
+    res.send('surkovaes');
+});
+
+app.listen(process.env.PORT);
