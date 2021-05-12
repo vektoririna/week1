@@ -13,7 +13,7 @@ const cors = function(req, res, next){
 app
 .use(cors)
 .get('/login/', (req, res) => {
-    res.send('surkovaes');
+    res.send('sorokina_irina');
 })
 .get('/test/', async (req, res) => {
     const browser = await puppeteer.launch({args: ['--no-sandbox']});
@@ -25,7 +25,7 @@ app
     res.send(value);
 })
 .use((req, res) => {
-    res.send('surkovaes');
+    res.send('sorokina_irina');
 });
 
 app.listen(process.env.PORT);
