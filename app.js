@@ -20,7 +20,7 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
             .on('end', () => res.send(b));
         });
     })
-    .get('/login/', (req, res) => res.send('bee_joo'))
+    .get('/login/', (req, res) => res.send('sorokina_irina'))
     .get('/code/', (req, res) => fs.createReadStream(import.meta.url.substring(7)).pipe(res))
     .get('/sha1/:input/', (req, res) => res.send(crypto.createHash('sha1').update(req.params.input).digest('hex')))
     .post('/insert/', urlencodedParser, async (req, res) => {
@@ -72,7 +72,7 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
         res.render('data.pug', {'random2': req.body.random2, 'random3': req.body.random3});
     })
     
-    .all('/*', r => r.res.send('bee_joo'));
+    .all('/*', r => r.res.send('sorokina_irina'));
 
     return app;
 }
