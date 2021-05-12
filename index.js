@@ -1,31 +1,18 @@
-import express from 'express';
+import express from "express"
+import bodyParser from "body-parser"
+import { createReadStream, writeFileSync } from 'fs';
+import crypto from "crypto"
+import http from "http"
+import appSrc from "./app.js"
+import m from 'mongoose'
+import UserModel from './User.js';
 import puppeteer from 'puppeteer';
 
-const app = express();
+const User = UserModel(m);
+const app = appSrc(express, bodyParser, createReadStream, writeFileSync, crypto, http, m, User, puppeteer);
 
-const cors = function(req, res, next){
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,OPTIONS,DELETE');
-    res.header('Access-Control-Allow-Headers', '*');
-    next();
+try {
+    app.listen(process.env.PORT || 4321);
+} catch(e) {
+    console.log(e.codeName);
 }
-
-app
-.use(cors)
-.get('/login/', (req, res) => {
-    res.send('sorokina_irina');
-})
-.get('/test/', async (req, res) => {
-    const browser = await puppeteer.launch({args: ['--no-sandbox']});
-    const page = await browser.newPage();
-    await page.goto(req.query.URL);
-    await page.click('#bt');
-    const input = await page.$('#inp');
-    let value = await page.evaluate(inp => inp.value, input);
-    res.send(value);
-})
-.use((req, res) => {
-    res.send('sorokina_irina');
-});
-
-app.listen(process.env.PORT);
